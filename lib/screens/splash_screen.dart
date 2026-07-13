@@ -1,9 +1,9 @@
 import 'package:cricball/screens/home_screen.dart';
 import 'package:cricball/screens/login_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart'hide AuthProvider;
 import 'package:flutter/material.dart';
-//import 'package:provider/provider.dart';
-//import '../providers/auth_provider.dart';
+import 'package:provider/provider.dart';
+import '../providers/auth_provider.dart';
 import '../widgets/app_logo.dart';
 import '../services/auth_service.dart';
 
@@ -25,18 +25,27 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(const Duration(seconds: 3), () {});
     if (!mounted) return;
 
-    User? user = FirebaseAuth.instance.currentUser;
+    User? firebaseUser = FirebaseAuth.instance.currentUser;
 
-    if (user != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-      );
+    if (firebaseUser != null) {
+      // 1. We found a saved user! Load their extra details into Provider
+      await Provider.of<AuthProvider>(context, listen: false).loadUserData(firebaseUser.uid);
+
+      // 2. Now that Provider has the data, go to the HomeScreen
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+        );
+      }
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+      // No user saved, go straight to Login
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
+        );
+      }
     }
   }
 

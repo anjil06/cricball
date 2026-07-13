@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../models/user.dart' as models;
 import '../services/auth_service.dart';
@@ -101,6 +102,28 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       _error = e.toString();
       notifyListeners();
+    }
+  }
+
+  // Inside your auth_provider.dart
+  Future<void> loadUserData(String uid) async {
+    try {
+      // Example: Fetching from Firestore
+      DocumentSnapshot doc = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+      if (doc.exists) {
+        // 2. CRITICAL: Assign the fetched data to your provider's variable
+        _user = UserModel.fromMap(doc.data()!); // Adjust this to match your actual model
+
+        // 3. CRITICAL: Tell the UI to rebuild!
+        notifyListeners();
+
+        print("Data loaded successfully!"); // Add this to check your terminal
+      } else {
+        print("No user document found in database!");
+      }
+    } catch (e) {
+      print("Error loading user data: $e");
     }
   }
 
