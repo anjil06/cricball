@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "994903842997",
+    "project_id": "cricball",
+    "storage_bucket": "cricball.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:994903842997:android:1f8c7e00a4790207ce1efc",
+        "android_client_info": {
+          "package_name": "com.anjil.cricball"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqUuN4SaXW4TSCtMKO5eo42b_7x9q7h9c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
