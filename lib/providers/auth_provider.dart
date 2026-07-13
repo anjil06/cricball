@@ -113,8 +113,7 @@ class AuthProvider extends ChangeNotifier {
 
       if (doc.exists) {
         // 2. CRITICAL: Assign the fetched data to your provider's variable
-        _user = UserModel.fromMap(doc.data()!); // Adjust this to match your actual model
-
+        _user = models.User.fromMap(doc.data()!);
         // 3. CRITICAL: Tell the UI to rebuild!
         notifyListeners();
 
